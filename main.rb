@@ -207,14 +207,12 @@ end
   end
 
   def info_station
-    #station = select_station
-    #station.trains.each {|train| puts train.number }
     @stations.each do |station|
       puts station.title
       station.each_train do |train|
-        puts "  Номер поезда - #{train.number}, тип - #{train.type}, кол-во вагонов - #{train.wagons.length}"
+        puts " Номер поезда - #{train.number}, тип - #{train.type}, кол-во вагонов - #{train.wagons.length}"
         train.each_wagon do |wagon|
-          puts "      #{wagon.message}"
+          puts "#{wagon.message}"
         end
       end
     end
@@ -223,25 +221,29 @@ end
   def wagon_manipulation
     train = select_train
     wagon = select_wagon(train)
+    begin
       if wagon.is_a? PassengerWagon
-      puts "Количество свободных мест: #{wagon.free_place}"
-      puts "Количество занятых мест: #{wagon.occupied_place} "
+      puts "Количество свободных мест: #{wagon.free_space}"
+      puts "Количество занятых мест: #{wagon.occupied_space} "
       puts "Купить билет?(введите 'д' или 'н')"
       if gets.chomp == 'д'
-        wagon.take_place
+        wagon.take_space
         puts "Билет куплен!"
       end
     else
-      puts "Количество свободного объема: #{wagon.free_volume}"
-      puts "Количество занятого объема: #{wagon.occupied_volume} "
+      puts "Количество свободного объема: #{wagon.free_space}"
+      puts "Количество занятого объема: #{wagon.occupied_space} "
       puts "Добавить груз?(введите 'д' или 'н')"
       if gets.chomp == 'д'
         puts "Введите объем добавляемого груза"
-        wagon.take_volume(gets.to_f)
+        wagon.take_space(gets.to_f)
         puts "Груз добавлен!"
       end
     end
-
+    rescue Exception => e
+      puts "#{e.message} Попробуйте еще раз!"
+      retry
+    end
   end
 
 
@@ -291,6 +293,23 @@ end
     @wagon << CargoWagon.new(3,1200)
     @wagon << CargoWagon.new(4,1200)
     @wagon << CargoWagon.new(5,1200)
+
+    @wagon[0].take_space
+    @wagon[0].take_space
+    @wagon[0].take_space
+    @wagon[0].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[1].take_space
+    @wagon[5].take_space(324.5)
+    @wagon[5].take_space(324.5)
+    @wagon[6].take_space(400)
+    @wagon[7].take_space(900)
 
     @trains[0].add_wagon(@wagon[0])
     @trains[0].add_wagon(@wagon[1])

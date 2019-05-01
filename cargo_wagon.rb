@@ -1,22 +1,15 @@
 class CargoWagon < Wagon
-  attr_reader :volume, :occupied_volume
+  attr_reader
 
   def initialize(id, volume)
-    super(id)
-    @volume = volume
-    @occupied_volume = 0
+    super
     @type = "грузовой"
   end
 
-  def take_volume(value)
-   @occupied_volume += value
-  end
-
-  def free_volume
-    @volume - @occupied_volume
-  end
-
   def message
-    "тип вагона: #{@type}, количество свободного места: #{self.free_volume} т., количество занятого места: #{@occupied_volume}"
+    "#{super}
+    \r   количество свободного места: #{self.free_space} тонн
+    \r   количество занятого места: #{@occupied_space} тонн"
   end
+
 end
